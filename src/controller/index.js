@@ -1,6 +1,7 @@
+let books = [];
 
 const renderIndex = (req, res) => {
-    res.render('index.ejs');
+    res.render('index.ejs', {books});
 }
 
 const renderNewBook = (req, res) => {
@@ -8,7 +9,23 @@ const renderNewBook = (req, res) => {
 }
 
 const createNewBook = (req, res) => {
-    console.log(req.body);
+    const { title, author, image, description } = req.body;
+
+    if (!title || !author || !image || !description) {
+        res.status(400).send("Escribe todos los campos");
+    }
+
+    let newBook = {
+        title,
+        author,
+        image,
+        description
+    }
+
+    books.push(newBook);
+    console.log(newBook);
+
+    res.redirect('/');
 }
 
 module.exports = {
