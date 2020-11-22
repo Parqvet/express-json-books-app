@@ -1,4 +1,7 @@
-let books = [];
+const fs = require('fs');
+
+const json_books = fs.readFileSync('src/books.json', 'utf-8');
+let books = JSON.parse(json_books);
 
 const renderIndex = (req, res) => {
     res.render('index.ejs', {books});
@@ -23,7 +26,9 @@ const createNewBook = (req, res) => {
     }
 
     books.push(newBook);
-    console.log(newBook);
+    
+    const jsonBooks = JSON.stringify(books);
+    fs.writeFileSync('src/books.json', jsonBooks, 'utf-8')
 
     res.redirect('/');
 }
