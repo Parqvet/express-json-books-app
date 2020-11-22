@@ -8,7 +8,7 @@ const renderNewBook = (req, res) => {
 }
 
 const createNewBook = (req, res) => {
-    
+    console.log(req.body);
 }
 
 module.exports = {
