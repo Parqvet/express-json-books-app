@@ -1,4 +1,5 @@
 const fs = require('fs');
+const { v4: uuid } = require('uuid');
 
 const json_books = fs.readFileSync('src/books.json', 'utf-8');
 let books = JSON.parse(json_books);
@@ -19,6 +20,7 @@ const createNewBook = (req, res) => {
     }
 
     let newBook = {
+        id: uuid(),
         title,
         author,
         image,
@@ -33,8 +35,17 @@ const createNewBook = (req, res) => {
     res.redirect('/');
 }
 
+const deleteBook = (req, res) => {
+    const booksFilter = books.filter(book => book.id != req.params.id)
+
+    const jsonBooks = JSON.stringify(booksFilter);
+    fs.writeFileSync('src/books.json', jsonBooks, 'utf-8')
+    res.redirect('/');
+} 
+
 module.exports = {
     renderIndex,
     renderNewBook,
-    createNewBook
+    createNewBook,
+    deleteBook
 }
